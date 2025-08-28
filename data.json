@@ -1,0 +1,152 @@
+{
+  "courses": [
+    {
+      "id": "math",
+      "name": "Math"
+    },
+    {
+      "id": "eng",
+      "name": "English"
+    },
+    {
+      "id": "sci",
+      "name": "Science"
+    },
+    {
+      "id": "hist",
+      "name": "History"
+    }
+  ],
+  "students": [
+    {
+      "id": "s1",
+      "name": "John",
+      "gradeLevel": "Grade 5",
+      "courseIds": [
+        "math",
+        "eng",
+        "sci",
+        "hist"
+      ]
+    },
+    {
+      "id": "s2",
+      "name": "Jake",
+      "gradeLevel": "Grade 7",
+      "courseIds": [
+        "math",
+        "eng",
+        "sci"
+      ]
+    }
+  ],
+  "users": [
+    {
+      "username": "john",
+      "password": "pass123",
+      "role": "student",
+      "displayName": "John",
+      "studentId": "s1"
+    },
+    {
+      "username": "mike",
+      "password": "pass123",
+      "role": "parent",
+      "displayName": "Mike",
+      "childrenIds": [
+        "s1",
+        "s2"
+      ]
+    },
+    {
+      "username": "joe",
+      "password": "pass123",
+      "role": "teacher",
+      "displayName": "joe",
+      "teacherCourseIds": [
+        "math",
+        "eng",
+        "sci"
+      ]
+    }
+  ],
+  "assignments": [
+    {
+      "id": "a1",
+      "studentId": "s1",
+      "courseId": "math",
+      "title": "Math Homework 2",
+      "description": "Complete all exercises on fractions.",
+      "due": "2025-07-25"
+    },
+    {
+      "id": "a2",
+      "studentId": "s1",
+      "courseId": "math",
+      "title": "Math Test",
+      "description": "Test on multiplication.",
+      "due": "2025-07-30"
+    },
+    {
+      "id": "a3",
+      "studentId": "s1",
+      "courseId": "sci",
+      "title": "Science Worksheet 3",
+      "description": "Label the parts of a plant.",
+      "due": "2025-07-28"
+    },
+    {
+      "id": "a4",
+      "studentId": "s1",
+      "courseId": "hist",
+      "title": "Homework 4",
+      "description": "Please complete",
+      "due": "2025-07-30"
+    },
+    {
+      "id": "a5",
+      "studentId": "s2",
+      "courseId": "math",
+      "title": "Unit Review",
+      "description": "Practice problems 1\u201320.",
+      "due": "2025-07-29"
+    }
+  ],
+  "grades": [
+    {
+      "id": "g1",
+      "studentId": "s1",
+      "courseId": "math",
+      "grade": "B",
+      "feedback": "Excellent work on fractions."
+    },
+    {
+      "id": "g2",
+      "studentId": "s1",
+      "courseId": "math",
+      "grade": "C",
+      "feedback": "Study harder."
+    },
+    {
+      "id": "g3",
+      "studentId": "s1",
+      "courseId": "math",
+      "grade": "B+",
+      "feedback": "Great effort. Improve labeling accuracy."
+    },
+    {
+      "id": "g4",
+      "studentId": "s1",
+      "courseId": "math",
+      "grade": "A",
+      "feedback": "Good"
+    },
+    {
+      "id": "g5",
+      "studentId": "s1",
+      "courseId": "math",
+      "grade": "A",
+      "feedback": "test"
+    }
+  ]
+}

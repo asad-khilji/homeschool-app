@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Homeschool App</title>
+  <link rel="stylesheet" href="styles.css"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div id="gradient-bg"></div>
+
+  <!-- Landing -->
+  <main id="landing" class="centered">
+    <section class="card card-lg">
+      <h1 class="title">Welcome to the<br/>Homeschool App</h1>
+      <p class="muted">Please log in to continue.</p>
+      <div class="row gap">
+        <button class="btn" data-route="login">Login</button>
+        <button class="btn btn-ghost" data-route="register">Register</button>
+      </div>
+    </section>
+  </main>
+
+  <!-- Auth pages -->
+  <main id="auth" class="centered hidden">
+    <section class="card card-md">
+      <h2 id="auth-title" class="title">Login</h2>
+
+      <div class="form-field">
+        <label for="username">Username:</label>
+        <input id="username" type="text" placeholder="Enter your username" autocomplete="username" />
+      </div>
+      <div class="form-field" id="password-row">
+        <label for="password">Password:</label>
+        <input id="password" type="password" placeholder="Enter your password" autocomplete="current-password"/>
+      </div>
+
+      <div class="form-field hidden" id="role-row">
+        <label for="role">Role:</label>
+        <select id="role">
+          <option value="student">Student</option>
+          <option value="parent">Parent</option>
+          <option value="teacher">Teacher</option>
+        </select>
+      </div>
+
+      <button id="auth-submit" class="btn block">Login</button>
+      <p id="auth-footer" class="muted small">Don't have an account? <a href="#" data-route="register">Register here</a></p>
+    </section>
+  </main>
+
+  <!-- App shell -->
+  <div id="app" class="hidden">
+    <aside class="sidebar">
+      <div class="sidebar-title" id="panel-title">Panel</div>
+      <nav class="nav">
+        <button class="nav-link" data-view="dashboard">Dashboard</button>
+        <button class="nav-link" data-view="assignments">Assignments</button>
+        <button class="nav-link" data-view="grades">Grades</button>
+      </nav>
+      <button id="logout" class="btn btn-danger mt-auto">Logout</button>
+    </aside>
+
+    <section class="content">
+      <header class="page-header">
+        <h2 id="welcome" class="page-title">Welcome</h2>
+      </header>
+      <div id="view-container"></div>
+    </section>
+  </div>
+
+  <template id="assignment-card">
+    <article class="item-card">
+      <div class="item-accent"></div>
+      <h3 class="item-title"></h3>
+      <p class="item-desc"></p>
+      <p class="item-meta"></p>
+    </article>
+  </template>
+
+  <template id="grade-card">
+    <article class="item-card">
+      <div class="item-accent success"></div>
+      <h3 class="item-title"></h3>
+      <p class="item-desc"></p>
+    </article>
+  </template>
+
+  <script src="app.js"></script>
+</body>
+</html>
