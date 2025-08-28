@@ -49,6 +49,7 @@ function showAuth(kind) {
     ? `Don't have an account? <a href="#" data-route="register">Register here</a>`
     : `Already have an account? <a href="#" data-route="login">Login here</a>`;
 
+  // rebind footer link
   authFooter.querySelector('a')?.addEventListener('click', (e) => {
     e.preventDefault();
     showAuth(isLogin ? 'register' : 'login');
@@ -102,7 +103,37 @@ function loadDataOverride() {
 }
 function saveDataOverride() {
   localStorage.setItem(LS_DATA, JSON.stringify(state.data));
+  autoDownloadJSON(); // trigger background save-to-file (debounced)
 }
+
+// ---------- Auto save-to-file (no buttons) ----------
+let saveTimer = null;
+function autoDownloadJSON() {
+  // Debounce to avoid multiple downloads in quick succession
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(() => {
+    triggerDownload('homeschool-data.json', JSON.stringify(state.data, null, 2));
+  }, 600);
+}
+function triggerDownload(filename, text) {
+  const blob = new Blob([text], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = filename;
+  // Some browsers require the node to be in the DOM
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  URL.revokeObjectURL(url);
+}
+// Keyboard shortcut: Ctrl+S / Cmd+S to save now
+window.addEventListener('keydown', (e) => {
+  if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 's') {
+    e.preventDefault();
+    triggerDownload('homeschool-data.json', JSON.stringify(state.data, null, 2));
+  }
+});
 
 // Auth submit
 authSubmit.addEventListener('click', () => {
@@ -276,7 +307,7 @@ function renderAssignments(u) {
         id: 'a' + Date.now(),
         studentId, courseId, title, description, due
       });
-      saveDataOverride();
+      saveDataOverride();       // persists to LS + triggers auto download
       renderAssignments(u);
     });
 
@@ -387,7 +418,7 @@ function renderGrades(u) {
       const validCourse = student?.courseIds?.includes(courseId) && state.user.teacherCourseIds.includes(courseId);
       if (!validCourse) return alert('Selected student is not in that course (or you do not teach it).');
       state.data.grades.push({ id: 'g' + Date.now(), studentId, courseId, grade, feedback });
-      saveDataOverride();
+      saveDataOverride();   // persists + triggers auto download
       alert('Grade added.');
       renderGrades(u);
     });
@@ -401,7 +432,7 @@ function renderGrades(u) {
         if (idx === -1) return alert('Grade not found.');
         state.data.grades[idx].grade = form.grade.value.trim();
         state.data.grades[idx].feedback = form.feedback.value.trim();
-        saveDataOverride();
+        saveDataOverride(); // persists + triggers auto download
         alert('Grade updated.');
       });
     });
@@ -438,7 +469,7 @@ function renderTeacherAssignmentRow(a, u) {
   // Filter course options to those both taught by teacher AND enrolled by the (current) student
   const currentStudent = state.data.students.find(s => s.id === a.studentId);
   const allowedCourseIds = new Set(
-    (currentStudent?.courseIds || []).filter(cid => u.teacherCourseIds.includes(cid))
+    (currentStudent?.courseIds || []).filter(cid => state.user.teacherCourseIds.includes(cid))
   );
   const courseOptions = teacherCourses
     .map(c => `<option value="${c.id}" ${c.id===a.courseId?'selected':''} ${allowedCourseIds.has(c.id)?'':'disabled'}>${c.name}</option>`)
@@ -551,7 +582,7 @@ function bindAssignmentEditHandlers(u) {
       Object.assign(state.data.assignments[idx], {
         studentId, courseId, title, description: desc, due
       });
-      saveDataOverride();
+      saveDataOverride(); // persists + triggers auto download
       alert('Assignment updated.');
       renderAssignments(state.user);
     });
